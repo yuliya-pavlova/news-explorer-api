@@ -9,6 +9,7 @@ const articles = require('./routes/articles.js');
 const { getUser, login, createUser } = require('./controllers/users.js');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const NotFoundError = require('./errors/not-found-err');
+const errorHandler = require('./middlewares/error-handler');
 
 const { PORT = 3000 } = process.env;
 
@@ -39,20 +40,7 @@ app.use(() => {
   throw new NotFoundError('Запрашиваемый ресурс не найден');
 });
 
-app.use((err, req, res, next) => {
-  if (err instanceof mongoose.Error.ValidationError || err.message.indexOf('duplicate key error') !== -1 || err instanceof mongoose.Error.CastError) {
-    res.status(400).send({ message: err.message });
-  }
-  const { statusCode = 500, message } = err;
-
-  res
-    .status(statusCode)
-    .send({
-      message: statusCode === 500
-        ? 'На сервере произошла ошибка'
-        : message,
-    });
-});
+app.use(errorHandler);
 
 app.listen(PORT, () => {
 });

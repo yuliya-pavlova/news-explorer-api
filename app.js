@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
+const rateLimit = require('express-rate-limit');
 const routes = require('./routes');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/error-handler');
@@ -19,11 +20,17 @@ mongoose.connect('mongodb://localhost:27017/newsdb', {
   useFindAndModify: false,
 });
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 200,
+});
+
 app.use(bodyParser());
 app.use(helmet());
 app.use(cookieParser());
 app.use(requestLogger);
 
+app.use(limiter);
 app.use(routes);
 
 app.use(errorLogger);

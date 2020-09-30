@@ -1,7 +1,6 @@
 const Article = require('../models/article');
 const ForbiddenError = require('../errors/forbidden-err');
 const BadRequestError = require('../errors/bad-request-err');
-const { NODE_ENV } = require('../config');
 
 module.exports.createArticle = (req, res, next) => {
   const {

@@ -7,6 +7,7 @@
 ## Инструкции по запуску:
 - Для локального запуска нужно использовать команду npm run dev
 - К серверу можно обратиться по публичному IP 84.201.174.242
-- К серверу можно обратиться по http и по https используя домен news-explorer.students.nomoreparties.co/api
-- Фронтенд сайта располагается по адресу https://news-explorer.students.nomoreparties.co
+- К серверу можно обратиться по http и по https используя домен api.my-news-explorer.ml
+- Фронтенд сайта располагается по адресу  https://my-news-explorer.ml/
+
 

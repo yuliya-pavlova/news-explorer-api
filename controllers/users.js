@@ -3,15 +3,16 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config');
 const User = require('../models/user');
 const BadRequestError = require('../errors/bad-request-err');
+const errorMessages = require('../constants');
 
 module.exports.getUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(() => {
-      throw new BadRequestError('Нет такого пользователя');
+      throw new BadRequestError(errorMessages.incorrectIdError);
     })
     .then((user) => {
       if (!user) {
-        throw new BadRequestError('Нет такого пользователя');
+        throw new BadRequestError(errorMessages.incorrectIdError);
       }
       const {
         email, name,
@@ -25,7 +26,7 @@ module.exports.getUser = (req, res, next) => {
 
 module.exports.createUser = (req, res, next) => {
   if (req.body.password === undefined || req.body.password.length < 8) {
-    throw new BadRequestError('Укажите пароль длиной не менее 8 символов');
+    throw new BadRequestError(errorMessages.badRequestError);
   } else {
     bcrypt.hash(req.body.password, 10)
       .then((hash) => User.create({

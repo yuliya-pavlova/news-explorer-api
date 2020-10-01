@@ -2,10 +2,11 @@ const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
 const { ObjectId } = require('mongoose').Types;
 const BadRequestError = require('../errors/bad-request-err');
+const errorMessages = require('../constants');
 
 const vallidatorURL = (link) => {
   if (!validator.isURL(link)) {
-    throw new BadRequestError('Невалидный url');
+    throw new BadRequestError(errorMessages.incorrectUrlError);
   } else {
     return link;
   }
@@ -37,6 +38,7 @@ const validateArticle = celebrate({
   body: Joi.object().keys({
     keyword: Joi.string().required(),
     title: Joi.string().required(),
+    text: Joi.string().required(),
     date: Joi.string().required(),
     source: Joi.string().required(),
     link: Joi.string().required().custom(vallidatorURL),
@@ -53,7 +55,7 @@ const validateObjectId = celebrate({
       if (ObjectId.isValid(value)) {
         return value;
       }
-      return new BadRequestError('Невалидный id');
+      throw new BadRequestError(errorMessages.incorrectIdError);
     }),
   }),
 });

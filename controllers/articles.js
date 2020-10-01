@@ -1,6 +1,7 @@
 const Article = require('../models/article');
 const ForbiddenError = require('../errors/forbidden-err');
 const BadRequestError = require('../errors/bad-request-err');
+const errorMessages = require('../constants');
 
 module.exports.createArticle = (req, res, next) => {
   const {
@@ -28,14 +29,13 @@ module.exports.getArticles = (req, res, next) => {
 module.exports.deleteArticle = (req, res, next) => {
   Article.findById(req.params.id).select('+owner')
     .orFail(() => {
-      throw new BadRequestError('Нет такой статьи');
+      throw new BadRequestError(errorMessages.incorrectIdError);
     })
     .then((article) => {
       if ((article.owner).toString() !== req.user._id) {
-        throw new ForbiddenError('Нет прав на удаление статьи');
+        throw new ForbiddenError(errorMessages.forbiddenError);
       }
-      article.remove();
-      return res.send({ article });
+      article.remove().then(() => res.send({ article }));
     })
     .catch((err) => {
       next(err);

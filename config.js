@@ -5,3 +5,9 @@ module.exports = {
   NODE_ENV,
   DB,
 };
+
+const whitelist = [
+  'http://localhost:8080',
+];
+
+module.exports.WHITELIST = whitelist;

@@ -5,3 +5,14 @@ module.exports = {
   NODE_ENV,
   DB,
 };
+
+const whitelist = [
+  'http://localhost:8080',
+  'https://localhost:8080',
+  'http://mynewsexplorer.online',
+  'https://mynewsexplorer.online/',
+  'http://www.mynewsexplorer.online/',
+  'https://www.mynewsexplorer.online/',
+];
+
+module.exports.WHITELIST = whitelist;

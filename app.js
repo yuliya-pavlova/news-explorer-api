@@ -10,6 +10,7 @@ const routes = require('./routes');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/error-handler');
 const { DB } = require('./config');
+const { cors } = require('./middlewares/cors');
 
 const { PORT = 3000 } = process.env;
 
@@ -26,6 +27,7 @@ const limiter = rateLimit({
   max: 200,
 });
 
+app.use(cors);
 app.use(bodyParser());
 app.use(helmet());
 app.use(cookieParser());

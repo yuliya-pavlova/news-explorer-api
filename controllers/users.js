@@ -43,7 +43,10 @@ module.exports.createUser = (req, res, next) => {
         });
       })
       .catch((err) => {
-        next(err);
+        if (err.code === 11000 && err.name === 'MongoError') {
+          next(new BadRequestError('Пользователь уже зарегистрирован'));
+        }
+        return next(err);
       });
   }
 };
@@ -58,7 +61,7 @@ module.exports.login = (req, res, next) => {
         .cookie('jwt', token, {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
-          sameSite: true,
+          sameSite: 'none',
         });
       return res.send({ token, name: user.name });
     })

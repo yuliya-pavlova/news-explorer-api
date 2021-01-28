@@ -9,6 +9,13 @@ const options = {
       callback(null, false);
     }
   },
+  allowedHeaders: [
+    'Content-Type',
+    'origin',
+    'x-access-token',
+    'authorization',
+    'credentials',
+  ],
   credentials: true,
 };
 

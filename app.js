@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
@@ -10,9 +11,32 @@ const routes = require('./routes');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/error-handler');
 const { DB } = require('./config');
-const { cors } = require('./middlewares/cors');
+// const { cors } = require('./middlewares/cors');
 
 const { PORT = 3000 } = process.env;
+
+const corsOptions = {
+  origin: [
+    'http://localhost:8080',
+    'https://localhost:8080',
+    'http://mycoolnews.students.nomoreparties.space',
+    'https://mycoolnews.students.nomoreparties.space',
+    'http://www.mycoolnews.students.nomoreparties.space',
+    'https://www.mycoolnews.students.nomoreparties.space',
+    'https://yuliya-pavlova.github.io/news-explorer-frontend',
+  ],
+  methods: ['GET', 'PUT', 'PATCH', 'POST', 'DELETE', 'HEAD'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+  allowedHeaders: [
+    'Content-Type',
+    'origin',
+    'x-access-token',
+    'authorization',
+    'credentials',
+  ],
+  credentials: true,
+};
 
 const app = express();
 
@@ -27,13 +51,14 @@ const limiter = rateLimit({
   max: 200,
 });
 
-app.use(cors);
+// app.use(cors);
 app.use(bodyParser());
 app.use(helmet());
 app.use(cookieParser());
 app.use(requestLogger);
 
 app.use(limiter);
+app.use('*', cors(corsOptions));
 app.use(routes);
 
 app.use(errorLogger);

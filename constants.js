@@ -19,5 +19,4 @@ module.exports.JWT_COOKIE_OPTIONS = {
   httpOnly: true,
   sameSite: 'none',
   secure: true,
-  domain: 'https://mycoolnews.students.nomoreparties.space',
 };

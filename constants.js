@@ -10,7 +10,6 @@ const errorMessages = {
 };
 
 module.exports = errorMessages;
-
 module.exports.JWT_OPTIONS = {
   expiresIn: '7d',
 };
@@ -19,5 +18,4 @@ module.exports.JWT_COOKIE_OPTIONS = {
   expires: new Date(Date.now() + 604800000),
   httpOnly: true,
   sameSite: true,
-  secure: true,
 };

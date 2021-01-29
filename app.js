@@ -61,6 +61,10 @@ app.use(limiter);
 app.use('*', cors(corsOptions));
 app.use(routes);
 
+app.use((req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
+});
+
 app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);

@@ -9,10 +9,10 @@ module.exports = {
 const whitelist = [
   'http://localhost:8080',
   'https://localhost:8080',
-  'http://mynewsexplorer.online',
-  'https://mynewsexplorer.online/',
-  'http://www.mynewsexplorer.online/',
-  'https://www.mynewsexplorer.online/',
+  'http://mycoolnews.students.nomoreparties.space',
+  'https://mycoolnews.students.nomoreparties.space',
+  'http://www.mycoolnews.students.nomoreparties.space',
+  'https://www.mycoolnews.students.nomoreparties.space',
 ];
 
 module.exports.WHITELIST = whitelist;

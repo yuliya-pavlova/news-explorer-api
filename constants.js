@@ -17,5 +17,6 @@ module.exports.JWT_OPTIONS = {
 module.exports.JWT_COOKIE_OPTIONS = {
   expires: new Date(Date.now() + 604800000),
   httpOnly: true,
-  sameSite: true,
+  sameSite: 'none',
+  secure: true,
 };

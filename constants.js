@@ -16,7 +16,8 @@ module.exports.JWT_OPTIONS = {
 };
 
 module.exports.JWT_COOKIE_OPTIONS = {
-  maxAge: 3600000 * 24 * 7,
+  expires: new Date(Date.now() + 604800000),
   httpOnly: true,
   sameSite: true,
+  secure: true,
 };

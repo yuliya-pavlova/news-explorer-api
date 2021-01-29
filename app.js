@@ -18,6 +18,9 @@ const { PORT = 3000 } = process.env;
 const whitelist = [
   'http://localhost:8080',
   'https://yuliya-pavlova.github.io',
+  'https://www.mycoolnews.students.nomoreparties.space',
+  'http://www.mycoolnews.students.nomoreparties.space/',
+  'https://mycoolnews.students.nomoreparties.space/',
 ];
 const corsOptions = {
   origin: (origin, callback) => {

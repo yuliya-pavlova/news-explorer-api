@@ -63,7 +63,8 @@ module.exports.login = (req, res, next) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, JWT_OPTIONS);
       res
         .cookie('jwt', token, JWT_COOKIE_OPTIONS)
-        .send({ token, name: user.name });
+        .send({ token, name: user.name })
+        .end();
     })
     .catch((err) => {
       next(err);

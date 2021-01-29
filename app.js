@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
-const rateLimit = require('express-rate-limit');
+// const rateLimit = require('express-rate-limit');
 const routes = require('./routes');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/error-handler');
@@ -40,33 +40,44 @@ const { PORT = 3000 } = process.env;
 
 const app = express();
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+
+  app.options('*', (req, res) => {
+    res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
+    res.send();
+  });
+});
+
 mongoose.connect(DB, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
 });
 
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 200,
-});
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000,
+//   max: 200,
+// });
 
 // app.use(cors);
 app.use(bodyParser());
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  if (req.method === 'OPTION') {
-    res.header('Access-Control-Allow-Methods', 'GET, PUT, PATCH, POST, DELETE, HEAD');
-    return res.status(200).json({});
-  }
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+//   if (req.method === 'OPTION') {
+//     res.header('Access-Control-Allow-Methods', 'GET, PUT, PATCH, POST, DELETE, HEAD');
+//     return res.status(200).json({});
+//   }
+//   next();
+// });
 app.use(helmet());
 app.use(cookieParser());
 app.use(requestLogger);
 
-app.use(limiter);
+// app.use(limiter);
 // app.use('*', cors(corsOptions));
 app.use(routes);
 

@@ -10,3 +10,13 @@ const errorMessages = {
 };
 
 module.exports = errorMessages;
+
+module.exports.JWT_OPTIONS = {
+  expiresIn: '7d',
+};
+
+module.exports.JWT_COOKIE_OPTIONS = {
+  maxAge: 3600000 * 24 * 7,
+  httpOnly: true,
+  sameSite: true,
+};

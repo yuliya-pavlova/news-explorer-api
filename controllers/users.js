@@ -4,6 +4,10 @@ const { JWT_SECRET } = require('../config');
 const User = require('../models/user');
 const BadRequestError = require('../errors/bad-request-err');
 const errorMessages = require('../constants');
+const {
+  JWT_OPTIONS,
+  JWT_COOKIE_OPTIONS,
+} = require('../constants');
 
 module.exports.getUser = (req, res, next) => {
   User.findById(req.user._id)
@@ -56,14 +60,10 @@ module.exports.login = (req, res, next) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '8d' });
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET, JWT_OPTIONS);
       res
-        .cookie('jwt', token, {
-          maxAge: 3600000 * 24 * 7,
-          httpOnly: true,
-          sameSite: true,
-        });
-      return res.send({ token, name: user.name });
+        .cookie('jwt', token, JWT_COOKIE_OPTIONS)
+        .send({ token, name: user.name });
     })
     .catch((err) => {
       next(err);

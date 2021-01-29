@@ -60,6 +60,7 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Methods', 'GET, PUT, PATCH, POST, DELETE, HEAD');
     return res.status(200).json({});
   }
+  next();
 });
 app.use(helmet());
 app.use(cookieParser());
